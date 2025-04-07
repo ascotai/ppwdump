@@ -3,8 +3,8 @@ To install this project using a Python virtual environment and clone the reposit
 1. **Clone the Repository:**
    Open your terminal or command prompt and navigate to the directory where you want to clone the repository. Then, run the following command:
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
+   git clone https://github.com/ascotai/ppwdump.git
+   cd ppwdump
    ```
 
 2. **Create a Virtual Environment with uv:**
