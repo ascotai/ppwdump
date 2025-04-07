@@ -4,8 +4,8 @@ To run this project in a Distrobox based on the `ppw` image described in the Doc
    If you haven't already cloned the project repository into your local machine, do so now. Replace `<repository-url>` with the actual URL of your project's repository.
 
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
+   git clone https://github.com/ascotai/ppwdump.git
+   cd ppwdump
    ```
 
 2. **Install Distrobox:**
