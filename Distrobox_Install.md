@@ -40,14 +40,14 @@ To run this project in a Distrobox based on the `ppw` image described in the Doc
    Inside the Distrobox container, install the required dependencies listed in `requirements.txt` using pip. Note that version 0.3.0 of `langchain-ollama` must be installed for compatibility with `browser-use`.
 
    ```bash
+   # Install dependencies from requirements.txt
+   pip install -r requirements.txt
+
    # Uninstall the current version of langchain-ollama if it's installed
-   pip uninstall langchain-ollama -y
+   pip uninstall langchain-ollama
 
    # Install the specific version required
    pip install langchain-ollama==0.3.0
-
-   # Install other dependencies from requirements.txt
-   pip install -r requirements.txt
    ```
 
 7. **Run the Project:**
