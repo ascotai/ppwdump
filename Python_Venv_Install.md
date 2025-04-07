@@ -43,7 +43,7 @@ To install this project using a Python virtual environment and clone the reposit
    ```
 
 7. **Disable Telemetry:**
-   To disable telemetry, export the `ANONYMIZED_TELEMETRY` environment variable to `"false"` in your shell:
+   To disable browser-use telemetry, export the `ANONYMIZED_TELEMETRY` environment variable to `"false"` in your shell:
    - On Windows, run:
      ```cmd
      set ANONYMIZED_TELEMETRY=false

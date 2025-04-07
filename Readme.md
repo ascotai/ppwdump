@@ -74,6 +74,18 @@ The project includes functions for code generation:
 
 These functions are located in `code_generation.py`.
 
+## Disable Telemetry
+
+   To disable browser-use telemetry, export the `ANONYMIZED_TELEMETRY` environment variable to `"false"` in your shell:
+   - On Windows, run:
+     ```cmd
+     set ANONYMIZED_TELEMETRY=false
+     ```
+   - On macOS and Linux, run:
+     ```bash
+     export ANONYMIZED_TELEMETRY="false"
+     ```
+
 ## Contributing
 
 Contributions to this project are welcome. Please fork the repository and submit pull requests with your changes.
