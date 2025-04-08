@@ -2,7 +2,7 @@
 
 
 import os
-from .config import LLM_MODEL, LLM_BASE_URL, LLM_NUM_CTX,USE_VISION, ANONYMIZED_TELEMETRY
+from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY
 
 #Disable telemetry
 os.environ["ANONYMIZED_TELEMETRY"] = ANONYMIZED_TELEMETRY
@@ -21,9 +21,9 @@ async def main():
 
     # Step 2: Use Ollama as the language model
     llm = ChatOllama(
-        model=LLM_MODEL,
-        base_url=LLM_BASE_URL,
-        num_ctx = LLM_NUM_CTX
+        model=OLLAMA_MODEL,
+        base_url=OLLAMA_BASE_URL,
+        num_ctx=OLLAMA_NUM_CTX
         )
     use_vision = USE_VISION
 

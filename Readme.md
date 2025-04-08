@@ -57,9 +57,9 @@ playwright install
    The configuration for the project is located in `config.py`. You can modify the following settings:
 
    - `ANONYMIZED_TELEMETRY`: Whether to enable anonymized telemetry.
-   - `LLM_MODEL`: The language model to use.
-   - `LLM_BASE_URL`: The base URL for the language model.
-   - `LLM_NUM_CTX`: The number of context tokens.
+   - `OLLAMA_MODEL`: The language model to use.
+   - `OLLAMA_BASE_URL`: The base URL for the language model.
+   - `OLLAMA_NUM_CTX`: The number of context tokens.
 
 3. **Browser Configuration**
 

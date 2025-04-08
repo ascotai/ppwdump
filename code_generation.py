@@ -1,7 +1,7 @@
 # ppwdump/code_generation.py
 
 from langchain_ollama import ChatOllama
-from .config import LLM_MODEL, LLM_BASE_URL, LLM_NUM_CTX
+from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX
 
 
 
@@ -48,9 +48,9 @@ def generate_playwright_code(history_list):
 ]
     # Use ChatOllama to generate Playwright code based on the prompt
     llm = ChatOllama(
-        model=LLM_MODEL,
-        base_url=LLM_BASE_URL,
-        num_ctx=LLM_NUM_CTX
+        model=OLLAMA_MODEL,
+        base_url=OLLAMA_BASE_URL,
+        num_ctx=OLLAMA_NUM_CTX
     )
 
     response = llm.invoke(messages)  # Blocking call
@@ -184,9 +184,9 @@ Now convert this code as in the example:
 
     # Use ChatOllama to generate Playwright code based on the prompt
     llm = ChatOllama(
-        model=LLM_MODEL,
-        base_url=LLM_BASE_URL,
-        num_ctx=LLM_NUM_CTX
+        model=OLLAMA_MODEL,
+        base_url=OLLAMA_BASE_URL,
+        num_ctx=OLLAMA_NUM_CTX
     )
 
     response = llm.invoke(messages)  # Blocking call
