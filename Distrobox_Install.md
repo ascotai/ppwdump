@@ -41,13 +41,13 @@ To run this project in a Distrobox based on the `ppw` image described in the Doc
 
    ```bash
    # Install dependencies from requirements.txt
-   pip install -r requirements.txt
+   sudo pip install -r requirements.txt
 
    # Uninstall the current version of langchain-ollama if it's installed
-   pip uninstall langchain-ollama
+   sudo pip uninstall langchain-ollama
 
    # Install the specific version required
-   pip install langchain-ollama==0.3.0
+   sudo pip install langchain-ollama==0.3.0
    ```
 
 7. **Run the Project:**
