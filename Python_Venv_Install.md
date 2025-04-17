@@ -29,20 +29,13 @@ To install this project using a Python virtual environment and clone the reposit
    uv pip install -r requirements.txt
    ```
 
-5. **Install Specific Version of langchain-ollama:**
-   Since version 0.3.0 of `langchain-ollama` is required for compatibility with `browser-use`, you need to uninstall the current version and install the specific version:
-   ```bash
-   uv pip uninstall langchain-ollama
-   uv pip install langchain-ollama==0.3.0
-   ```
-
-6. **Install Playwright:**
+5. **Install Playwright:**
    Install Playwright and its necessary browser binaries by running:
    ```bash
    playwright install
    ```
 
-7. **Disable Telemetry:**
+6. **Disable Telemetry:**
    To disable browser-use telemetry, export the `ANONYMIZED_TELEMETRY` environment variable to `"false"` in your shell:
    - On Windows, run:
      ```cmd
@@ -53,9 +46,10 @@ To install this project using a Python virtual environment and clone the reposit
      export ANONYMIZED_TELEMETRY="false"
      ```
 
-8. **Run the Project:**
+7. **Run the Project:**
    You can now run the project using the following command:
    ```bash
+   cd ../
    python -m ppwdump
    ```
 

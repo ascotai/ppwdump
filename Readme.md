@@ -14,7 +14,6 @@ To run this project, you need to have the following dependencies installed:
 
 ```plaintext
 playwright
-langchain-ollama==0.3.0
 browser-use
 ```
 
@@ -22,18 +21,6 @@ You can install these dependencies using pip:
 
 ```bash
 pip install -r requirements.txt
-```
-
-**Note:** Currently, in order for `browser-use` to work with `ollama`, version 0.3.0 of `langchain-ollama` must be installed. To do this, first uninstall `langchain-ollama` with pip:
-
-```bash
-pip uninstall langchain-ollama
-```
-
-Then, install the specific version:
-
-```bash
-pip install langchain-ollama==0.3.0
 ```
 
 Additionally, you need to install Playwright's browser binaries by running:
@@ -49,6 +36,7 @@ playwright install
    The main entry point of the project is `__main__.py`. You can run it directly using Python:
 
    ```bash
+   cd ../
    python -m ppwdump
    ```
 
