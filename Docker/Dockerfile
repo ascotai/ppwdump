@@ -4,6 +4,7 @@ FROM mcr.microsoft.com/playwright/python:v1.51.0-noble-amd64
 RUN pip install --upgrade pip && \
     pip install pytest-html pytest-playwright && \
     pip install pytest-xdist && \
+    pip install browser-use && \
     apt-get update && \
     apt-get install -y wget && \
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \

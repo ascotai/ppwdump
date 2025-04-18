@@ -36,19 +36,10 @@ To run this project in a Distrobox based on the `ppw` image described in the Doc
    distrobox-enter ppw-container
    ```
 
-6. **Install Dependencies:**
-   Inside the Distrobox container, install the required dependencies listed in `requirements.txt` using pip.
-
-   ```bash
-   # Install dependencies from requirements.txt
-   sudo pip install -r requirements.txt
-   ```
-
-7. **Run the Project:**
+6. **Run the Project:**
    You can now run the project using the following command:
 
    ```bash
-   cd ../
    python -m ppwdump
    ```
 
