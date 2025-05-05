@@ -16,10 +16,10 @@ To run this project in a Distrobox based on the `ppw` image described in the Doc
 
    ```bash
    # Using Docker
-   docker build -t ppw .
+   docker build --no-cache -t ppw .
 
    # Using Podman
-   podman build -t ppw .
+   podman build --no-cache -t ppw .
    ```
 
 4. **Create a Distrobox Container Using the Local Image:**

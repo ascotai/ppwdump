@@ -1,10 +1,10 @@
-Docker/Dockerfile_arm64 (1-10)
 # Use the official Playwright Python image from Microsoft Container Registry (MCR)
-FROM mcr.microsoft.com/playwright/python:v1.51.0-noble-arm64
+FROM mcr.microsoft.com/playwright/python:v1.52.0-noble-arm64
 
 # Install pip and required packages in one RUN command
 RUN pip install --upgrade pip && \
-    pip install pytest-html pytest-playwright pytest-xdist browser-use
+    pip install browser-use==0.1.45 && \
+    pip install -U patchright==1.52.0
 
 # Create and set the working directory
 WORKDIR /work

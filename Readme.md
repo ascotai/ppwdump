@@ -17,7 +17,6 @@ For a more isolated environment, we recommend using a Python virtual environment
 To run this project, you need to have the following dependencies installed:
 
 ```plaintext
-playwright
 browser-use
 ```
 
@@ -27,10 +26,10 @@ You can install these dependencies using pip:
 pip install -r requirements.txt
 ```
 
-Additionally, you need to install Playwright's browser binaries by running:
+Additionally, you need to install Patchright's browser binaries by running:
 
 ```bash
-playwright install
+patchwright install
 ```
 
 ## Usage

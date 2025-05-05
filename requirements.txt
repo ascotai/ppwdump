@@ -1,2 +1,1 @@
-playwright
-browser-use
+browser-use==0.1.45
