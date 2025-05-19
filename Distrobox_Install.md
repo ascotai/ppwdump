@@ -40,6 +40,7 @@ To run this project in a Distrobox based on the `ppw` image described in the Doc
    You can now run the project using the following command:
 
    ```bash
+   cd ~/
    python -m ppwdump
    ```
 

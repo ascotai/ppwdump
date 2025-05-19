@@ -26,10 +26,10 @@ You can install these dependencies using pip:
 pip install -r requirements.txt
 ```
 
-Additionally, you need to install Patchright's browser binaries by running:
+Additionally, you need to install Playwright's browser binaries by running:
 
 ```bash
-patchwright install
+playwright install
 ```
 
 ## Usage

@@ -1,1 +1,1 @@
-browser-use==0.1.45
+browser-use==0.1.48

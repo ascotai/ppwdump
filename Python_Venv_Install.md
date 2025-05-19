@@ -32,7 +32,7 @@ To install this project using a Python virtual environment and clone the reposit
 5. **Install Playwright:**
    Install Playwright and its necessary browser binaries by running:
    ```bash
-   uv run patchright install
+   uv run playwright install
    ```
 
 6. **Disable Telemetry:**
