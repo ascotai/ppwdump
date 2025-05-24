@@ -2,7 +2,7 @@
 
 
 import os
-from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY
+from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY
 
 #Disable telemetry
 os.environ["ANONYMIZED_TELEMETRY"] = ANONYMIZED_TELEMETRY
@@ -26,9 +26,10 @@ async def main():
         num_ctx=OLLAMA_NUM_CTX
         )
     use_vision = USE_VISION
+    enable_memory = ENABLE_MEMORY
 
     # Step 3: Run the initial task and get the history list
-    history_list = await run_initial_task(task, llm, use_vision)
+    history_list = await run_initial_task(task, llm, use_vision, enable_memory)
     print("\n\n", history_list.model_actions())
 
     # Step 4: Generate Playwright code based on the history list

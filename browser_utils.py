@@ -15,7 +15,7 @@ from langchain_ollama import ChatOllama
 
 
 
-async def run_initial_task(task, llm, use_vision) -> AgentHistoryList:
+async def run_initial_task(task, llm, use_vision, enable_memory) -> AgentHistoryList:
     
     browser = Browser(
     config=BrowserConfig(
@@ -26,7 +26,9 @@ async def run_initial_task(task, llm, use_vision) -> AgentHistoryList:
         browser=browser,
         task=task,
         llm=llm,
-        use_vision=use_vision
+        use_vision=use_vision,
+        enable_memory=enable_memory
+
     )
 
     result = await agent.run()  # Ensure this is awaited
