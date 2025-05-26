@@ -7,9 +7,6 @@ from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, A
 #Disable telemetry
 os.environ["ANONYMIZED_TELEMETRY"] = ANONYMIZED_TELEMETRY
 
-from browser_use import Agent
-from browser_use.browser.browser import Browser, BrowserConfig
-from browser_use.agent.views import AgentHistoryList
 import asyncio
 from langchain_ollama import ChatOllama
 from .browser_utils import run_initial_task

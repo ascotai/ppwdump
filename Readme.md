@@ -54,7 +54,7 @@ playwright install
 
 3. **Browser Configuration**
 
-   The browser configuration is handled in `browser_utils.py`. You can customize the browser settings, such as the path to the Chrome instance, by modifying the `BrowserConfig` object.
+   The browser configuration is handled in `browser_utils.py`. You can customize the browser settings, such as browser instance, by modifying the `BrowserProfile` object.
 
 ## Code Generation
 
