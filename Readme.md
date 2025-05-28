@@ -54,14 +54,14 @@ playwright install
 
 3. **Browser Configuration**
 
-   The browser configuration is handled in `browser_utils.py`. You can customize the browser settings, such as browser instance, by modifying the `BrowserProfile` object.
+   The browser configuration is handled in `__main__.py`. You can customize the browser settings by modifying the `BrowserProfile` object. The browser settings docs are found [here](https://docs.browser-use.com/customize/browser-settings)
 
 ## Code Generation
 
 The project includes functions for code generation:
 
-- `generate_playwright_code(history_list)`: Generates Playwright code based on a history list.
-- `generate_pytest_playwright_code(playwright_code)`: Generates PyTest code for Playwright scripts.
+- `generate_playwright_code(history_list)`: Generates Python Playwright code based on a history list.
+- `generate_pytest_playwright_code(playwright_code)`: Generates PyTest code from Python Playwright scripts.
 
 These functions are located in `code_generation.py`.
 

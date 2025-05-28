@@ -1,16 +1,28 @@
 # ppwdump/main.py
 
-
+import asyncio
 import os
 from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY
-
 #Disable telemetry
 os.environ["ANONYMIZED_TELEMETRY"] = ANONYMIZED_TELEMETRY
-
-import asyncio
+from browser_use import Agent, BrowserProfile, BrowserSession
 from langchain_ollama import ChatOllama
-from .browser_utils import run_initial_task
 from .code_generation import generate_playwright_code, generate_pytest_playwright_code
+
+
+
+# Define the browser profile
+browser_profile = BrowserProfile(
+        headless=False,
+        disable_security=False
+        # Add other configurations as needed
+    )
+
+# Define the browser session using the profile
+browser_session = BrowserSession(
+        browser_profile=browser_profile,
+        # Add other configurations as needed
+    )
 
 async def main():
     # Step 1: Ask the user for the initial task
@@ -26,7 +38,17 @@ async def main():
     enable_memory = ENABLE_MEMORY
 
     # Step 3: Run the initial task and get the history list
-    history_list = await run_initial_task(task, llm, use_vision, enable_memory)
+    agent = Agent(
+        task=task,
+        llm=llm,
+        use_vision=use_vision,
+        enable_memory=enable_memory,
+        browser_session=browser_session  # Use the session instead of browser
+    )
+
+    history_list = await agent.run()  # Ensure this is awaited
+    await browser_session.close()
+
     print("\n\n", history_list.model_actions())
 
     # Step 4: Generate Playwright code based on the history list
