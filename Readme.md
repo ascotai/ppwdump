@@ -56,6 +56,21 @@ playwright install
 
    The browser configuration is handled in `__main__.py`. You can customize the browser settings by modifying the `BrowserProfile` object. The browser settings docs are found [here](https://docs.browser-use.com/customize/browser-settings)
 
+4. **Command Line Options**
+
+   ```bash
+   python -m ppwdump [-h] [--no-out] [--pytest] [--history] [--all]
+   ```
+
+   Run the main task with optional outputs. Default behavior: output python code
+
+   options:
+   - `-h, --help`: show this help message and exit
+   - `--no-out`: Output nothing
+   - `--pytest`: Output only pytest code
+   - `--history`: Output only history list
+   - `--all`: Output history list, python code and pytest code
+
 ## Code Generation
 
 The project includes functions for code generation:

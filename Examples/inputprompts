@@ -2,4 +2,4 @@ Goto https://www.saucedemo.com/v1/. Login with username standard_user password s
 
 Goto https://www.ecosia.com/. Put Giant Panda in the search box. Click on the search button. Click on the link for the Giant Panda Wikipedia page. Finish.
 
-Goto https://formy-project.herokuapp.com/form and fill out all elements of the form with sample data including checkboxes and then submit the form.
+Goto https://formy-project.herokuapp.com/form and fill out all elements of the form with sample data including all radio buttons and checkboxes then submit the form.
