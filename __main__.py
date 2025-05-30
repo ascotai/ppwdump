@@ -52,13 +52,13 @@ async def main():
 
     if args.no_out:
         pass  # Output nothing
-    elif args.pytest or args.history:
-        playwright_code_content = generate_playwright_code(history_list).content
-        if args.pytest:
-            pytest_playwright_code = generate_pytest_playwright_code(playwright_code_content)
-            print(pytest_playwright_code.content)
+    elif args.history or args.pytest:
         if args.history:
             print("\n\n", history_list.model_actions())
+        if args.pytest:
+            playwright_code_content = generate_playwright_code(history_list).content
+            pytest_playwright_code = generate_pytest_playwright_code(playwright_code_content)
+            print(pytest_playwright_code.content)
     elif args.all:
         playwright_code_content = generate_playwright_code(history_list).content
         pytest_playwright_code = generate_pytest_playwright_code(playwright_code_content)
