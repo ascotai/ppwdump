@@ -25,10 +25,7 @@ browser_session = BrowserSession(
     # Add other configurations as needed
 )
 
-async def main():
-    # Step 1: Ask the user for the initial task
-    task = input("Enter the initial task: ")
-
+async def generate_history_list(task):
     # Step 2: Use Ollama as the language model
     llm = ChatOllama(
         model=OLLAMA_MODEL,
@@ -49,6 +46,15 @@ async def main():
 
     history_list = await agent.run()  # Ensure this is awaited
     await browser_session.close()
+    return history_list
+
+async def main():
+    if args.task:
+        task = args.task
+    else:
+        task = input("Enter the initial task: ")
+
+    history_list = await generate_history_list(task)
 
     if args.no_out:
         pass  # Output nothing
@@ -76,6 +82,7 @@ if __name__ == "__main__":
     parser.add_argument('--pytest', action='store_true', help='Output only pytest code')
     parser.add_argument('--history', action='store_true', help='Output only history list')
     parser.add_argument('--all', action='store_true', help='Output history list, python code and pytest code')
+    parser.add_argument('--task', type=str, help='Initial task to execute')
 
     args = parser.parse_args()
 
