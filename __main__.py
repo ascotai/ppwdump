@@ -25,15 +25,13 @@ browser_session = BrowserSession(
     # Add other configurations as needed
 )
 
-async def generate_history_list(task):
+async def generate_history_list(task,model=OLLAMA_MODEL,base_url=OLLAMA_BASE_URL,num_ctx=OLLAMA_NUM_CTX,use_vision=USE_VISION,enable_memory=ENABLE_MEMORY):
     # Step 2: Use Ollama as the language model
     llm = ChatOllama(
-        model=OLLAMA_MODEL,
-        base_url=OLLAMA_BASE_URL,
-        num_ctx=OLLAMA_NUM_CTX
+        model=model,
+        base_url=base_url,
+        num_ctx=num_ctx
     )
-    use_vision = USE_VISION
-    enable_memory = ENABLE_MEMORY
 
     # Step 3: Run the initial task and get the history list
     agent = Agent(

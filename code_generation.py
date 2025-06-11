@@ -5,7 +5,7 @@ from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX
 
 
 
-def generate_playwright_code(history_list):
+def generate_playwright_code(history_list,model=OLLAMA_MODEL,base_url=OLLAMA_BASE_URL,num_ctx=OLLAMA_NUM_CTX):
     # Create a new prompt based on the history list
     prompt = f"""
     for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this   ```json
@@ -48,15 +48,15 @@ def generate_playwright_code(history_list):
 ]
     # Use ChatOllama to generate Playwright code based on the prompt
     llm = ChatOllama(
-        model=OLLAMA_MODEL,
-        base_url=OLLAMA_BASE_URL,
-        num_ctx=OLLAMA_NUM_CTX
+        model=model,
+        base_url=base_url,
+        num_ctx=num_ctx
     )
 
     response = llm.invoke(messages)  # Blocking call
     return response
 
-def generate_pytest_playwright_code(playwright_code):
+def generate_pytest_playwright_code(playwright_code,model=OLLAMA_MODEL,base_url=OLLAMA_BASE_URL,num_ctx=OLLAMA_NUM_CTX):
 
     prompt = f""" convert the code below to pytest playwright include page objects tests and conftest.py. If it looks like a navigation occured make sure to return the code for a new page object for the visited page. Add variables for each locator in the page objects, you can define these locators in __init__ and then use them within the methods.
 
@@ -184,9 +184,9 @@ Now convert this code as in the example:
 
     # Use ChatOllama to generate Playwright code based on the prompt
     llm = ChatOllama(
-        model=OLLAMA_MODEL,
-        base_url=OLLAMA_BASE_URL,
-        num_ctx=OLLAMA_NUM_CTX
+        model=model,
+        base_url=base_url,
+        num_ctx=num_ctx 
     )
 
     response = llm.invoke(messages)  # Blocking call
