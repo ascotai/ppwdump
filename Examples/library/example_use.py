@@ -5,10 +5,11 @@ from ppwdump import generate_history_list, generate_playwright_code, generate_py
 
 async def main():
     my_model = "msm"
-    my_ollama_url  = "http://127.0.0.1:11434"
-    task = "Goto https://www.ecosia.com/. Put Giant Panda in the search box. Click on the search button. Click on the link for the Giant Panda Wikipedia page. Finish."
+    my_ollama_url  = "http://192.168.105.3:11434"
+    headless = False
+    task = "Goto https://formy-project.herokuapp.com/form and fill out all elements of the form with sample data including all radio buttons and checkboxes then submit the form."
     
-    history_list = await generate_history_list(task, model=my_model, base_url=my_ollama_url)
+    history_list = await generate_history_list(task, model=my_model, base_url=my_ollama_url, headless=headless)
 
     playwright_code_content = generate_playwright_code(history_list, model=my_model, base_url=my_ollama_url).content
     print("Playwright Code:")

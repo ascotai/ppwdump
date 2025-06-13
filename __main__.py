@@ -1,50 +1,10 @@
-# ppwdump/main.py
+# ppwdump/__main__.py
 
 import asyncio
-import os
 import argparse
-from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY
+from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS  # Import the new variable
+from .code_generation import generate_playwright_code, generate_pytest_playwright_code, generate_history_list  # Update import
 
-# Disable telemetry
-os.environ["ANONYMIZED_TELEMETRY"] = ANONYMIZED_TELEMETRY
-
-from browser_use import Agent, BrowserProfile, BrowserSession
-from langchain_ollama import ChatOllama
-from .code_generation import generate_playwright_code, generate_pytest_playwright_code
-
-# Define the browser profile
-browser_profile = BrowserProfile(
-    headless=False,
-    disable_security=False
-    # Add other configurations as needed
-)
-
-# Define the browser session using the profile
-browser_session = BrowserSession(
-    browser_profile=browser_profile,
-    # Add other configurations as needed
-)
-
-async def generate_history_list(task,model=OLLAMA_MODEL,base_url=OLLAMA_BASE_URL,num_ctx=OLLAMA_NUM_CTX,use_vision=USE_VISION,enable_memory=ENABLE_MEMORY):
-    # Step 2: Use Ollama as the language model
-    llm = ChatOllama(
-        model=model,
-        base_url=base_url,
-        num_ctx=num_ctx
-    )
-
-    # Step 3: Run the initial task and get the history list
-    agent = Agent(
-        task=task,
-        llm=llm,
-        use_vision=use_vision,
-        enable_memory=enable_memory,
-        browser_session=browser_session  # Use the session instead of browser
-    )
-
-    history_list = await agent.run()  # Ensure this is awaited
-    await browser_session.close()
-    return history_list
 
 async def main():
     if args.task:
@@ -52,8 +12,7 @@ async def main():
     else:
         task = input("Enter the initial task: ")
 
-    history_list = await generate_history_list(task)
-
+    history_list = await generate_history_list(task, headless=args.headless)  # Pass the headless argument here
     if args.no_out:
         pass  # Output nothing
     elif args.history or args.pytest:
@@ -81,6 +40,7 @@ if __name__ == "__main__":
     parser.add_argument('--history', action='store_true', help='Output only history list')
     parser.add_argument('--all', action='store_true', help='Output history list, python code and pytest code')
     parser.add_argument('--task', type=str, help='Initial task to execute')
+    parser.add_argument('--headless', action='store_true', help='Run the browser in headless mode')  # Add the new argument
 
     args = parser.parse_args()
 

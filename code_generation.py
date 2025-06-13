@@ -1,11 +1,47 @@
 # ppwdump/code_generation.py
 
+import os
 from langchain_ollama import ChatOllama
-from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX
+from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS  # Import the new variables
+# Disable telemetry
+os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
+from browser_use import Agent, BrowserProfile, BrowserSession
 
+async def generate_history_list(task, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_NUM_CTX, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS):  # Add the new parameter
+    # Define the browser profile with the headless setting
+    browser_profile = BrowserProfile(
+        headless=headless,
+        disable_security=False
+        # Add other configurations as needed
+    )
 
+    # Define the browser session using the profile
+    browser_session = BrowserSession(
+        browser_profile=browser_profile,
+        # Add other configurations as needed
+    )
 
-def generate_playwright_code(history_list,model=OLLAMA_MODEL,base_url=OLLAMA_BASE_URL,num_ctx=OLLAMA_NUM_CTX):
+    # Step 2: Use Ollama as the language model
+    llm = ChatOllama(
+        model=model,
+        base_url=base_url,
+        num_ctx=num_ctx
+    )
+
+    # Step 3: Run the initial task and get the history list
+    agent = Agent(
+        task=task,
+        llm=llm,
+        use_vision=use_vision,
+        enable_memory=enable_memory,
+        browser_session=browser_session  # Use the session instead of browser
+    )
+
+    history_list = await agent.run()  # Ensure this is awaited
+    await browser_session.close()
+    return history_list
+
+def generate_playwright_code(history_list, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_NUM_CTX):
     # Create a new prompt based on the history list
     prompt = f"""
     for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this   ```json
@@ -27,8 +63,8 @@ def generate_playwright_code(history_list,model=OLLAMA_MODEL,base_url=OLLAMA_BAS
           "ping": "/url?sa=t&source=web&rct=j&opi=89978449&url=https://en.wikipedia.org/wiki/Giant_panda&ved=2ahUKEwj-1euBzfiLAxXyJDQIHTGvDEwQFnoECEgQAQ"
         }},
         "shadow_root": false,
-        "css_selector": "html > body > div:nth-of-type(3) > div > div:nth-of-type(12) > div:nth-of-type(4) > div > div > div:nth-of-type(2) > div > div > div > div > div > 
-    div > div > div > div > div > div > div > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div > div > div > div > span > 
+        "css_selector": "html > body > div:nth-of-type(3) > div > div:nth-of-type(12) > div:nth-of-type(4) > div > div > div:nth-of-type(2) > div > div > div > div > div >
+    div > div > div > div > div > div > div > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div > div > div > div > span >
     a[href=\"https://en.wikipedia.org/wiki/Giant_panda\"]",
         "page_coordinates": null,
         "viewport_coordinates": null,
@@ -42,7 +78,7 @@ def generate_playwright_code(history_list,model=OLLAMA_MODEL,base_url=OLLAMA_BAS
     messages = [
     (
         "system",
-        "You are a helpful assistant that converts json instructions into runnable python playwright code. You always return just python code. You do not need to explain anything, just return the code.",
+        "You are a helpful assistant that converts json instructions into runnable python playwright code. You always return just python code. You do not need to explain anything, just return the code. Do not use markdown.",
     ),
     ("human", prompt),
 ]
@@ -56,10 +92,9 @@ def generate_playwright_code(history_list,model=OLLAMA_MODEL,base_url=OLLAMA_BAS
     response = llm.invoke(messages)  # Blocking call
     return response
 
-def generate_pytest_playwright_code(playwright_code,model=OLLAMA_MODEL,base_url=OLLAMA_BASE_URL,num_ctx=OLLAMA_NUM_CTX):
+def generate_pytest_playwright_code(playwright_code, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_NUM_CTX):
 
     prompt = f""" convert the code below to pytest playwright include page objects tests and conftest.py. If it looks like a navigation occured make sure to return the code for a new page object for the visited page. Add variables for each locator in the page objects, you can define these locators in __init__ and then use them within the methods.
-
 
 for example this code:
 
@@ -87,7 +122,6 @@ with sync_playwright() as p:
     # Close the browser (optional, if you want to close it after the actions)
     browser.close()
 
-
 would produce this output:
 
 # pages/google_search.py
@@ -107,9 +141,6 @@ class GoogleSearchPage:
     def click_search_button(self):
         self.page.click('input[name="btnK"][type="submit"]')
 
-    
-
-
 # pages/google_results.py
 
 from playwright.sync_api import Page
@@ -120,7 +151,6 @@ class GoogleResultsPage:
 
     def click_wikipedia_link(self):
         self.page.click("a[href='https://en.wikipedia.org/wiki/Giant_panda']")
-
 
 # tests/conftest.py
 
@@ -148,7 +178,6 @@ def google_search_page(page):
 def google_results_page(page):
     return GoogleResultsPage(page)
 
-
 # tests/test_google_search.py
 
 import pytest
@@ -160,27 +189,19 @@ def test_google_search(google_search_page, google_results_page):
     google_results_page.click_wikipedia_link()
     # Add assertions here if needed
 
-
-
-
 Now convert this code as in the example:
-
 
 {playwright_code}
 
-
 """
-
-
 
     messages = [
     (
         "system",
-        "You are a helpful assistant that converts python playwright code into pytest-playwright code. You always return just runnable pytest-playwright code. You do not need to explain anything, just return the code.",
+        "You are a helpful assistant that converts python playwright code into pytest-playwright code. You always return just runnable pytest-playwright code. You do not need to explain anything, just return the code. Do not use markdown.",
     ),
     ("human", prompt),
     ]
-
 
     # Use ChatOllama to generate Playwright code based on the prompt
     llm = ChatOllama(
