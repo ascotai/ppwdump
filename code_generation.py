@@ -44,7 +44,7 @@ async def generate_history_list(task, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_U
 def generate_playwright_code(history_list, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_NUM_CTX):
     # Create a new prompt based on the history list
     prompt = f"""
-    for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this   ```json
+    for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this
     {{
       "click_element": {{
         "index": 36
@@ -71,14 +71,14 @@ def generate_playwright_code(history_list, model=OLLAMA_MODEL, base_url=OLLAMA_B
         "viewport_info": null
       }}
     }}
-    ``` would give this page.click("a[href='https://en.wikipedia.org/wiki/Giant_panda']") give one command for each element in the array. If using attributes use multiple attributes if possible.
+    would give this page.click("a[href='https://en.wikipedia.org/wiki/Giant_panda']") give one command for each element in the array. If using attributes use multiple attributes if possible.
 
     {history_list.model_actions()}
     """
     messages = [
     (
         "system",
-        "You are a helpful assistant that converts json instructions into runnable python playwright code. You always return just python code. You do not need to explain anything, just return the code. Do not use markdown.",
+        "You are a helpful assistant that converts json instructions into runnable python playwright code. You always return just python code. You do not need to explain anything, just return the code. Do not output markdown i.e. ```python ```.",
     ),
     ("human", prompt),
 ]
@@ -198,7 +198,7 @@ Now convert this code as in the example:
     messages = [
     (
         "system",
-        "You are a helpful assistant that converts python playwright code into pytest-playwright code. You always return just runnable pytest-playwright code. You do not need to explain anything, just return the code. Do not use markdown.",
+        "You are a helpful assistant that converts python playwright code into pytest-playwright code. You always return just runnable pytest-playwright code. You do not need to explain anything, just return the code. Do not output markdown.",
     ),
     ("human", prompt),
     ]
