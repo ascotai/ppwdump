@@ -4,9 +4,7 @@
 
 `ppwdump` turns an ollama prompt into runnable python playwright code and pytest playwright code. It uses Playwright, Langchain-ollama, and Browser-use. This project leverages the power of these libraries to interact with web browsers and generate code for various purposes.
 
-
 https://github.com/user-attachments/assets/566c2711-c3b7-4a5c-8bdc-92557c6b57a9
-
 
 ## Installation Using Virtual Environment
 
@@ -51,6 +49,8 @@ playwright install
    - `OLLAMA_MODEL`: The language model to use.
    - `OLLAMA_BASE_URL`: The base URL for the language model.
    - `OLLAMA_NUM_CTX`: The number of context tokens.
+   - `USE_VISION`: Enable or disable vision feature.
+   - `HEADLESS`: Run the browser in headless mode.
 
 3. **Browser Configuration**
 
@@ -59,7 +59,7 @@ playwright install
 4. **Command Line Options**
 
    ```bash
-   python -m ppwdump [-h] [--no-out] [--pytest] [--history] [--all]
+   python -m ppwdump [-h] [--no-out] [--pytest] [--history] [--all] [--headless]
    ```
 
    Run the main task with optional outputs. Default behavior: output python code
@@ -70,6 +70,7 @@ playwright install
    - `--pytest`: Output only pytest code
    - `--history`: Output only history list
    - `--all`: Output history list, python code and pytest code
+   - `--headless`: Run the browser in headless mode
 
 ## Code Generation
 
@@ -79,6 +80,34 @@ The project includes functions for code generation:
 - `generate_pytest_playwright_code(playwright_code)`: Generates PyTest code from Python Playwright scripts.
 
 These functions are located in `code_generation.py`.
+
+## Using ppwdump as a Library
+
+You can use the `ppwdump` library directly in your own projects. Here's an example of how to do this:
+
+```python
+import asyncio
+from ppwdump import generate_history_list, generate_playwright_code, generate_pytest_playwright_code
+
+async def main():
+    my_model = "msm"
+    my_ollama_url  = "http://127.0.0.1:11434"
+    headless = False
+    task = "Goto https://formy-project.herokuapp.com/form and fill out all elements of the form with sample data including all radio buttons and checkboxes then submit the form."
+
+    history_list = await generate_history_list(task, model=my_model, base_url=my_ollama_url, headless=headless)
+
+    playwright_code_content = generate_playwright_code(history_list, model=my_model, base_url=my_ollama_url).content
+    print("Playwright Code:\n")
+    print(playwright_code_content)
+
+    pytest_playwright_code = generate_pytest_playwright_code(playwright_code_content, model=my_model, base_url=my_ollama_url)
+    print("\nPytest Playwright Code:\n")
+    print(pytest_playwright_code.content)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
 
 ## Disable Telemetry
 
