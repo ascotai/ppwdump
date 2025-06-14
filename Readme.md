@@ -52,11 +52,7 @@ playwright install
    - `USE_VISION`: Enable or disable vision feature.
    - `HEADLESS`: Run the browser in headless mode.
 
-3. **Browser Configuration**
-
-   The browser configuration is handled in `__main__.py`. You can customize the browser settings by modifying the `BrowserProfile` object. The browser settings docs are found [here](https://docs.browser-use.com/customize/browser-settings)
-
-4. **Command Line Options**
+3. **Command Line Options**
 
    ```bash
    python -m ppwdump [-h] [--no-out] [--pytest] [--history] [--all] [--headless]
@@ -71,15 +67,6 @@ playwright install
    - `--history`: Output only history list
    - `--all`: Output history list, python code and pytest code
    - `--headless`: Run the browser in headless mode
-
-## Code Generation
-
-The project includes functions for code generation:
-
-- `generate_playwright_code(history_list)`: Generates Python Playwright code based on a history list.
-- `generate_pytest_playwright_code(playwright_code)`: Generates PyTest code from Python Playwright scripts.
-
-These functions are located in `code_generation.py`.
 
 ## Using ppwdump as a Library
 
