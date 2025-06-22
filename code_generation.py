@@ -2,12 +2,12 @@
 
 import os
 from langchain_ollama import ChatOllama
-from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS  # Import the new variables
+from .config import OLLAMA_BROWSER_MODEL, OLLAMA_CODE_MODEL, OLLAMA_BASE_URL, OLLAMA_BROWSER_NUM_CTX, OLLAMA_CODE_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS  # Import the new variables
 # Disable telemetry
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
 from browser_use import Agent, BrowserProfile, BrowserSession
 
-async def generate_history_list(task, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_NUM_CTX, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS):  # Add the new parameter
+async def generate_history_list(task, model=OLLAMA_BROWSER_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_BROWSER_NUM_CTX, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS):  # Add the new parameter
     # Define the browser profile with the headless setting
     browser_profile = BrowserProfile(
         headless=headless,
@@ -41,7 +41,7 @@ async def generate_history_list(task, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_U
     await browser_session.close()
     return history_list
 
-def generate_playwright_code(history_list, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_NUM_CTX):
+def generate_playwright_code(history_list, model=OLLAMA_CODE_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_CODE_NUM_CTX):
     # Create a new prompt based on the history list
     prompt = f"""
     for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this
@@ -78,7 +78,7 @@ def generate_playwright_code(history_list, model=OLLAMA_MODEL, base_url=OLLAMA_B
     messages = [
     (
         "system",
-        "You are a helpful assistant that converts json instructions into runnable python playwright code. You always return just python code. You do not need to explain anything, just return the code. Do not output markdown i.e. ```python ```.",
+        "You are a helpful assistant that converts json instructions into complete runnable python playwright code. You always return just python code. You do not need to explain anything, just return the code. Do not output markdown i.e. ```python ```.",
     ),
     ("human", prompt),
 ]
@@ -92,7 +92,7 @@ def generate_playwright_code(history_list, model=OLLAMA_MODEL, base_url=OLLAMA_B
     response = llm.invoke(messages)  # Blocking call
     return response
 
-def generate_pytest_playwright_code(playwright_code, model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_NUM_CTX):
+def generate_pytest_playwright_code(playwright_code, model=OLLAMA_CODE_MODEL, base_url=OLLAMA_BASE_URL, num_ctx=OLLAMA_CODE_NUM_CTX):
 
     prompt = f""" convert the code below to pytest playwright include page objects tests and conftest.py. If it looks like a navigation occured make sure to return the code for a new page object for the visited page. Add variables for each locator in the page objects, you can define these locators in __init__ and then use them within the methods.
 

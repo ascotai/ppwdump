@@ -1,0 +1,12 @@
+FROM qwen2.5-coder:32b-instruct-q4_K_M
+
+#SYSTEM """ """
+
+PARAMETER num_thread 16
+
+PARAMETER num_ctx 16384
+
+PARAMETER temperature .2
+
+
+

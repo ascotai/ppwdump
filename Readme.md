@@ -6,6 +6,10 @@
 
 https://github.com/user-attachments/assets/566c2711-c3b7-4a5c-8bdc-92557c6b57a9
 
+## Important Note
+
+This project works best with version 0.8.0 of Ollama. Using later versions may cause issues at this time.
+
 ## Installation Using Virtual Environment
 
 For a more isolated environment, we recommend using a Python virtual environment. If you are on macOS, follow the instructions in the [Python_Venv_Install.md](Python_Venv_Install.md) file to create and activate a virtual environment using `uv` and then install the dependencies.
@@ -46,9 +50,11 @@ playwright install
    The configuration for the project is located in `config.py`. You can modify the following settings:
 
    - `ANONYMIZED_TELEMETRY`: Whether to enable anonymized telemetry.
-   - `OLLAMA_MODEL`: The language model to use.
+   - `OLLAMA_BROWSER_MODEL`: The language model to use for browser interactions.
+   - `OLLAMA_CODE_MODEL`: The language model to use for code generation.
    - `OLLAMA_BASE_URL`: The base URL for the language model.
-   - `OLLAMA_NUM_CTX`: The number of context tokens.
+   - `OLLAMA_BROWSER_NUM_CTX`: The number of context tokens for browser interactions.
+   - `OLLAMA_CODE_NUM_CTX`: The number of context tokens for code generation.
    - `USE_VISION`: Enable or disable vision feature.
    - `HEADLESS`: Run the browser in headless mode.
 

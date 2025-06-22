@@ -2,7 +2,6 @@
 
 import asyncio
 import argparse
-from .config import OLLAMA_MODEL, OLLAMA_BASE_URL, OLLAMA_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS  # Import the new variable
 from .code_generation import generate_playwright_code, generate_pytest_playwright_code, generate_history_list  # Update import
 
 
