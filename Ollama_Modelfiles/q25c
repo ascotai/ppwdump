@@ -4,7 +4,7 @@ FROM qwen2.5-coder:32b-instruct-q4_K_M
 
 PARAMETER num_thread 16
 
-PARAMETER num_ctx 16384
+PARAMETER num_ctx 22528
 
 PARAMETER temperature .2
 

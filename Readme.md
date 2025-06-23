@@ -2,7 +2,7 @@
 
 ## Description
 
-`ppwdump` turns an ollama prompt into runnable python playwright code and pytest playwright code. It uses Playwright, Langchain-ollama, and Browser-use. This project leverages the power of these libraries to interact with web browsers and generate code for various purposes.
+`ppwdump` turns a prompt into runnable python playwright code and pytest playwright code. It uses Playwright, and Browser-use. This project leverages the power of these libraries to interact with web browsers and generate code for various purposes.
 
 https://github.com/user-attachments/assets/566c2711-c3b7-4a5c-8bdc-92557c6b57a9
 
@@ -50,11 +50,11 @@ playwright install
    The configuration for the project is located in `config.py`. You can modify the following settings:
 
    - `ANONYMIZED_TELEMETRY`: Whether to enable anonymized telemetry.
-   - `OLLAMA_BROWSER_MODEL`: The language model to use for browser interactions.
-   - `OLLAMA_CODE_MODEL`: The language model to use for code generation.
-   - `OLLAMA_BASE_URL`: The base URL for the language model.
-   - `OLLAMA_BROWSER_NUM_CTX`: The number of context tokens for browser interactions.
-   - `OLLAMA_CODE_NUM_CTX`: The number of context tokens for code generation.
+   - `BROWSER_MODEL`: The language model to use for browser interactions.
+   - `CODE_MODEL`: The language model to use for code generation.
+   - `BASE_URL`: The base URL for the language model.
+   - `BROWSER_NUM_CTX`: The number of context tokens for browser interactions.
+   - `CODE_NUM_CTX`: The number of context tokens for code generation.
    - `USE_VISION`: Enable or disable vision feature.
    - `HEADLESS`: Run the browser in headless mode.
 
@@ -84,7 +84,7 @@ from ppwdump import generate_history_list, generate_playwright_code, generate_py
 
 async def main():
     my_model = "msm"
-    my_ollama_url  = "http://127.0.0.1:11434"
+    my_url  = "http://127.0.0.1:11434"
     headless = False
     task = "Goto https://formy-project.herokuapp.com/form and fill out all elements of the form with sample data including all radio buttons and checkboxes then submit the form."
 
