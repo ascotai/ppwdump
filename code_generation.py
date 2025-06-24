@@ -2,11 +2,11 @@
 
 import os
 from langchain_openai import ChatOpenAI
-from .config import BROWSER_MODEL, CODE_MODEL, BASE_URL, BROWSER_NUM_CTX, CODE_NUM_CTX, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
+from .config import BROWSER_MODEL, CODE_MODEL, BASE_URL, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
 from browser_use import Agent, BrowserProfile, BrowserSession
 
-async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, num_ctx=BROWSER_NUM_CTX, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS):
+async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS):
     # Define the browser profile with the headless setting
     browser_profile = BrowserProfile(
         headless=headless,
@@ -25,7 +25,6 @@ async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, nu
         model=model,
         api_key=API_KEY,
         base_url=base_url,
-        #num_ctx=num_ctx
     )
 
     # Step 3: Run the initial task and get the history list
@@ -41,7 +40,7 @@ async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, nu
     await browser_session.close()
     return history_list
 
-def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE_URL, num_ctx=CODE_NUM_CTX):
+def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE_URL):
     # Create a new prompt based on the history list
     prompt = f"""
     for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this
@@ -82,18 +81,17 @@ def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE_URL, 
     ),
     ("human", prompt),
 ]
-    # Use ChatOllama to generate Playwright code based on the prompt
+    # Use ChatOpenAI  to generate Playwright code based on the prompt
     llm = ChatOpenAI(
         model=model,
         api_key=API_KEY,
         base_url=base_url
-        #num_ctx=num_ctx
     )
 
     response = llm.invoke(messages)  # Blocking call
     return response
 
-def generate_pytest_playwright_code(playwright_code, model=CODE_MODEL, base_url=BASE_URL, num_ctx=CODE_NUM_CTX):
+def generate_pytest_playwright_code(playwright_code, model=CODE_MODEL, base_url=BASE_URL):
 
     prompt = f""" convert the code below to pytest playwright include page objects tests and conftest.py. If it looks like a navigation occured make sure to return the code for a new page object for the visited page. Add variables for each locator in the page objects, you can define these locators in __init__ and then use them within the methods.
 
@@ -204,12 +202,11 @@ Now convert this code as in the example:
     ("human", prompt),
     ]
 
-    # Use ChatOllama to generate Playwright code based on the prompt
+    # Use ChatOpenAI  to generate Playwright code based on the prompt
     llm = ChatOpenAI(
         model=model,
         api_key=API_KEY,
         base_url=base_url
-        #num_ctx=num_ctx
     )
 
     response = llm.invoke(messages)  # Blocking call

@@ -53,8 +53,6 @@ playwright install
    - `BROWSER_MODEL`: The language model to use for browser interactions.
    - `CODE_MODEL`: The language model to use for code generation.
    - `BASE_URL`: The base URL for the language model.
-   - `BROWSER_NUM_CTX`: The number of context tokens for browser interactions.
-   - `CODE_NUM_CTX`: The number of context tokens for code generation.
    - `USE_VISION`: Enable or disable vision feature.
    - `HEADLESS`: Run the browser in headless mode.
 
