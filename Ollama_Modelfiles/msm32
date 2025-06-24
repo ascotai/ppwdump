@@ -1,0 +1,13 @@
+FROM hf.co/unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF:Q4_K_M
+SYSTEM """ """
+
+PARAMETER num_thread 16
+
+PARAMETER num_ctx 32768
+
+PARAMETER temperature .15
+
+PARAMETER top_p .95
+
+
+
