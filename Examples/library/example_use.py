@@ -4,8 +4,8 @@ import asyncio
 from ppwdump import generate_history_list, generate_playwright_code, generate_pytest_playwright_code
 
 async def main():
-    my_browser_model = "q25c"
-    my_code_model = "msm"
+    my_browser_model = "msm32"
+    my_code_model = "msm32"
     my_url  = "http://127.0.0.1:11434/v1"
     headless = False
     api_key = "your_api_key_here"  # Add your API key here
