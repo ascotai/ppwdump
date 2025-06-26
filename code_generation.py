@@ -1,9 +1,8 @@
 # ppwdump/code_generation.py
-
-import os
-from browser_use.llm import ChatOpenAI  # Import ChatOpenAI instead of OpenAI
 from .config import BROWSER_MODEL, CODE_MODEL, BASE_URL, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
+import os
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
+from browser_use.llm import ChatOpenAI  # Import ChatOpenAI instead of OpenAI
 from browser_use import Agent, BrowserProfile, BrowserSession
 from browser_use.llm.messages import UserMessage, SystemMessage  # Import necessary message classes
 
