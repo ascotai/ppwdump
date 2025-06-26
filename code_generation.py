@@ -34,7 +34,7 @@ async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, us
         llm=llm,
         use_vision=use_vision,
         enable_memory=enable_memory,
-       #browser_session=browser_session  # Use the session instead of browser
+        browser_session=browser_session 
     )
 
     history_list = await agent.run()  # Ensure this is awaited
