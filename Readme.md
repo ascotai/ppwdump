@@ -2,7 +2,7 @@
 
 ## Description
 
-`ppwdump` turns a prompt into runnable python playwright code and pytest playwright code. It uses Playwright, and Browser-use. This project leverages the power of these libraries to interact with web browsers and generate code for various purposes.
+`ppwdump` turns a prompt into runnable python playwright code and pytest playwright code. It uses Playwright, and Browser-use. This project leverages the power of these libraries to interact with web browsers and generate code for various purposes. ppwdump should now work with OpenAI compatible providers, not just Ollama.
 
 https://github.com/user-attachments/assets/566c2711-c3b7-4a5c-8bdc-92557c6b57a9
 
@@ -81,20 +81,22 @@ import asyncio
 from ppwdump import generate_history_list, generate_playwright_code, generate_pytest_playwright_code
 
 async def main():
-    my_model = "msm"
-    my_url  = "http://127.0.0.1:11434"
+    my_browser_model = "q25c"
+    my_code_model = "msm"
+    my_url  = "http://127.0.0.1:11434/v1"
     headless = False
-    task = "Goto https://formy-project.herokuapp.com/form and fill out all elements of the form with sample data including all radio buttons and checkboxes then submit the form."
-
-    history_list = await generate_history_list(task, model=my_model, base_url=my_ollama_url, headless=headless)
-
-    playwright_code_content = generate_playwright_code(history_list, model=my_model, base_url=my_ollama_url).content
+    api_key = "your_api_key_here"  # Add your API key here
+    task = "Goto https://formy-project.herokuapp.com/form and fill out the elements of the form with sample data including radio buttons and checkboxes then submit the form. Make sure all entries make sense as if made by a human applicant."
+    
+    history_list = await generate_history_list(task, model=my_browser_model, base_url=my_url, headless=headless, api_key=api_key)
+    
+    playwright_code_content = generate_playwright_code(history_list, model=my_code_model, base_url=my_url, api_key=api_key)
     print("Playwright Code:\n")
     print(playwright_code_content)
 
-    pytest_playwright_code = generate_pytest_playwright_code(playwright_code_content, model=my_model, base_url=my_ollama_url)
+    pytest_playwright_code = generate_pytest_playwright_code(playwright_code_content, model=my_code_model, base_url=my_url, api_key=api_key)
     print("\nPytest Playwright Code:\n")
-    print(pytest_playwright_code.content)
+    print(pytest_playwright_code)
 
 if __name__ == "__main__":
     asyncio.run(main())

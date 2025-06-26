@@ -1,12 +1,13 @@
 # ppwdump/code_generation.py
 
 import os
-from langchain_openai import ChatOpenAI
+from browser_use.llm import ChatOpenAI  # Import ChatOpenAI instead of OpenAI
 from .config import BROWSER_MODEL, CODE_MODEL, BASE_URL, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
 from browser_use import Agent, BrowserProfile, BrowserSession
+from browser_use.llm.messages import UserMessage, SystemMessage  # Import necessary message classes
 
-async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS):
+async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS, api_key=API_KEY):
     # Define the browser profile with the headless setting
     browser_profile = BrowserProfile(
         headless=headless,
@@ -23,7 +24,7 @@ async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, us
     # Step 2: Use ChatOpenAI as the language model
     llm = ChatOpenAI(
         model=model,
-        api_key=API_KEY,
+        api_key=api_key,
         base_url=base_url,
     )
 
@@ -33,14 +34,14 @@ async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, us
         llm=llm,
         use_vision=use_vision,
         enable_memory=enable_memory,
-        browser_session=browser_session  # Use the session instead of browser
+       #browser_session=browser_session  # Use the session instead of browser
     )
 
     history_list = await agent.run()  # Ensure this is awaited
     await browser_session.close()
     return history_list
 
-def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE_URL):
+async def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE_URL, api_key=API_KEY):
     # Create a new prompt based on the history list
     prompt = f"""
     for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this
@@ -75,23 +76,28 @@ def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE_URL):
     {history_list.model_actions()}
     """
     messages = [
-    (
-        "system",
-        "You are a helpful assistant that converts json instructions into complete runnable python playwright code. You always return just python code. You do not need to explain anything, just return the code. Do not output markdown i.e. ```python ```.",
-    ),
-    ("human", prompt),
-]
-    # Use ChatOpenAI  to generate Playwright code based on the prompt
-    llm = ChatOpenAI(
+        SystemMessage(content=(
+            "You are a helpful assistant that converts json instructions into complete runnable python playwright code. "
+            "You always return just python code. You do not need to explain anything, just return the code. "
+            "Do not output markdown i.e. ```python```."
+            "Do not include any steps that writes to, reads from or opens local files."
+        )),
+        UserMessage(content=prompt),
+    ]
+
+    # Use ChatOpenAI client instead of OpenAI
+    client = ChatOpenAI(
         model=model,
-        api_key=API_KEY,
-        base_url=base_url
+        api_key=api_key,
+        base_url=base_url,
     )
 
-    response = llm.invoke(messages)  # Blocking call
-    return response
+    response = await client.ainvoke(messages)  # Ensure this is awaited
 
-def generate_pytest_playwright_code(playwright_code, model=CODE_MODEL, base_url=BASE_URL):
+    # Return the content of the first choice's message
+    return response.completion
+
+async def generate_pytest_playwright_code(playwright_code, model=CODE_MODEL, base_url=BASE_URL, api_key=API_KEY):
 
     prompt = f""" convert the code below to pytest playwright include page objects tests and conftest.py. If it looks like a navigation occured make sure to return the code for a new page object for the visited page. Add variables for each locator in the page objects, you can define these locators in __init__ and then use them within the methods.
 
@@ -195,19 +201,23 @@ Now convert this code as in the example:
 """
 
     messages = [
-    (
-        "system",
-        "You are a helpful assistant that converts python playwright code into pytest-playwright code. You always return just runnable pytest-playwright code. You do not need to explain anything, just return the code. Do not output markdown.",
-    ),
-    ("human", prompt),
+        SystemMessage(content=(
+            "You are a helpful assistant that converts python playwright code into pytest-playwright code. "
+            "You always return just runnable pytest-playwright code. You do not need to explain anything, just return the code. "
+            "Do not output markdown i.e. ```python```."
+            "Do not include any steps that writes to, reads from or opens local files."
+        )),
+        UserMessage(content=prompt),
     ]
 
-    # Use ChatOpenAI  to generate Playwright code based on the prompt
-    llm = ChatOpenAI(
+    # Use ChatOpenAI client instead of OpenAI
+    client = ChatOpenAI(
         model=model,
-        api_key=API_KEY,
-        base_url=base_url
+        api_key=api_key,
+        base_url=base_url,
     )
 
-    response = llm.invoke(messages)  # Blocking call
-    return response
+    response = await client.ainvoke(messages)  # Ensure this is awaited
+
+    # Return the content of the first choice's message
+    return response.completion

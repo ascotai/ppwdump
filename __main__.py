@@ -4,7 +4,6 @@ import asyncio
 import argparse
 from .code_generation import generate_playwright_code, generate_pytest_playwright_code, generate_history_list  # Update import
 
-
 async def main():
     if args.task:
         task = args.task
@@ -12,24 +11,29 @@ async def main():
         task = input("Enter the initial task: ")
 
     history_list = await generate_history_list(task, headless=args.headless)  # Pass the headless argument here
+   
     if args.no_out:
         pass  # Output nothing
     elif args.history or args.pytest:
         if args.history:
             print("\n\n", history_list.model_actions())
+            
         if args.pytest:
-            playwright_code_content = generate_playwright_code(history_list).content
-            pytest_playwright_code = generate_pytest_playwright_code(playwright_code_content)
-            print(pytest_playwright_code.content)
+            playwright_code_content = await generate_playwright_code(history_list)  # Await this coroutine
+            pytest_playwright_code = await generate_pytest_playwright_code(playwright_code_content)  # Await this coroutine
+            print(pytest_playwright_code)
+            
     elif args.all:
-        playwright_code_content = generate_playwright_code(history_list).content
-        pytest_playwright_code = generate_pytest_playwright_code(playwright_code_content)
         print("\n\n", history_list.model_actions())
+        playwright_code_content = await generate_playwright_code(history_list)  # Await this coroutine
         print(playwright_code_content)
-        print(pytest_playwright_code.content)  
+        pytest_playwright_code = await generate_pytest_playwright_code(playwright_code_content)  # Await this coroutine
+        print(pytest_playwright_code)
+        
     else:  # Default behavior: output Python code
-        playwright_code_content = generate_playwright_code(history_list).content
+        playwright_code_content = await generate_playwright_code(history_list)  # Await this coroutine
         print(playwright_code_content)
+        
 
 if __name__ == "__main__":
     # Setup argument parser

@@ -1,5 +1,5 @@
 Goto https://www.saucedemo.com/v1/. Login with username standard_user password secret_sauce. Click on Sauce Labs Fleece Jacket. Add Sauce Labs Fleece Jacket to the cart. Goto the cart by clicking the cart icon. Goto the checkout. Enter First Name Tom, Last Name Smith, Zip 95052. Hit continue. Hit finish. Verify that THANK YOU FOR YOUR ORDER is displayed.
 
-Goto https://www.ecosia.com/. Put Giant Panda in the search box. Click on the search button. Click on the link for the Giant Panda Wikipedia page. Finish.
+Goto https://www.ecosia.org. Put Giant Panda in the search box. Click on the search button. Click on the link for the Giant Panda Wikipedia page. Finish.
 
 Goto https://formy-project.herokuapp.com/form and fill out the elements of the form with sample data including radio buttons and checkboxes then submit the form. Make sure all entries make sense as if made by a human applicant.
