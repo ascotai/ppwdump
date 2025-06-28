@@ -1,8 +1,9 @@
 # ppwdump/code_generation.py
 from .config import BROWSER_MODEL, CODE_MODEL, BASE_URL, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
 import os
+os.environ["BROWSER_USE_LOGGING_LEVEL"]="debug"
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
-from browser_use.llm import ChatOpenAI  # Import ChatOpenAI instead of OpenAI
+from browser_use.llm import ChatOllama  # Import ChatOpenAI instead of OpenAI
 from browser_use import Agent, BrowserProfile, BrowserSession
 from browser_use.llm.messages import UserMessage, SystemMessage  # Import necessary message classes
 
@@ -21,10 +22,10 @@ async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, us
     )
 
     # Step 2: Use ChatOpenAI as the language model
-    llm = ChatOpenAI(
+    llm = ChatOllama(
         model=model,
-        api_key=api_key,
-        base_url=base_url,
+        #api_key=api_key,
+        host=base_url,
     )
 
     # Step 3: Run the initial task and get the history list
@@ -85,10 +86,10 @@ async def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE
     ]
 
     # Use ChatOpenAI client instead of OpenAI
-    client = ChatOpenAI(
+    client = ChatOllama(
         model=model,
-        api_key=api_key,
-        base_url=base_url,
+        #api_key=api_key,
+        host=base_url,
     )
 
     response = await client.ainvoke(messages)  # Ensure this is awaited
@@ -210,10 +211,10 @@ Now convert this code as in the example:
     ]
 
     # Use ChatOpenAI client instead of OpenAI
-    client = ChatOpenAI(
+    client = ChatOllama(
         model=model,
-        api_key=api_key,
-        base_url=base_url,
+        #api_key=api_key,
+        host=base_url,
     )
 
     response = await client.ainvoke(messages)  # Ensure this is awaited

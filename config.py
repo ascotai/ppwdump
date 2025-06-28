@@ -2,8 +2,8 @@
 
 BROWSER_MODEL = "msm32"
 CODE_MODEL = "msm32"
-BASE_URL = "http://127.0.0.1:11434/v1"
-USE_VISION = False #may be broken leave False for now
+BASE_URL = "192.168.105.3:11434"
+USE_VISION = True #may be broken leave False for now
 ANONYMIZED_TELEMETRY = False
 ENABLE_MEMORY = False #not implemented leave False
 HEADLESS = False
