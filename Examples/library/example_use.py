@@ -7,7 +7,7 @@ async def main():
     use_chat_ollama = True
     my_browser_model = "msm32"
     my_code_model = "msm"
-    ollama_host  = "192.168.105.3:11434"
+    ollama_host  = "127.0.0.1:11434"
     headless = False
     api_key = "your_api_key_here"  # Add your API key here
     task = "Goto https://formy-project.herokuapp.com/form and fill out the elements of the form with sample data including radio buttons and checkboxes then submit the form. Make sure all entries make sense as if made by a human applicant."
