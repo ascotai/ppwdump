@@ -1,11 +1,15 @@
 # ppwdump/config.py
-
-BROWSER_MODEL = "msm"
+#Ollama settings
+USE_CHAT_OLLAMA = False # True for better Ollama performance, False to use an OpenAI compatible provider
+OLLAMA_HOST = "192.168.105.3:11434"
+#OpenAI settings (set USE_CHAT_OLLAMA = False)
+API_KEY = "none"
+OPENAI_BASE_URL = "http://192.168.105.3:11434/v1"
+#Both
+BROWSER_MODEL = "msm32"
 CODE_MODEL = "msm"
-BASE_URL = "http://127.0.0.1:11434/v1"
-USE_VISION = False
+USE_VISION = True
 ANONYMIZED_TELEMETRY = False
 ENABLE_MEMORY = False #not implemented leave False
 HEADLESS = False
-# API Key for ChatOpenAI
-API_KEY = "none"
+
