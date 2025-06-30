@@ -1,7 +1,7 @@
 # ppwdump/code_generation.py
 from .config import OPENAI_BASE_URL,USE_CHAT_OLLAMA,BROWSER_MODEL, CODE_MODEL, OLLAMA_HOST, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
 import os
-os.environ["BROWSER_USE_LOGGING_LEVEL"]="debug"
+#os.environ["BROWSER_USE_LOGGING_LEVEL"]="debug"
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
 from browser_use.llm import ChatOpenAI
 from browser_use.llm import ChatOllama  # Import ChatOpenAI instead of OpenAI
