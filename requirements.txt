@@ -1,1 +1,1 @@
-browser-use==0.4.0
+browser-use==0.4.2
