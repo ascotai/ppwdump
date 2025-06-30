@@ -1,6 +1,6 @@
 # ppwdump/config.py
 #Ollama settings
-USE_CHAT_OLLAMA = False # True for better Ollama performance, False to use an OpenAI compatible provider
+USE_CHAT_OLLAMA = True # True for better Ollama performance, False to use an OpenAI compatible provider
 OLLAMA_HOST = "127.0.0.1:11434"
 #OpenAI settings (set USE_CHAT_OLLAMA = False)
 API_KEY = "none"
