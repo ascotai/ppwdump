@@ -1,13 +1,14 @@
 # ppwdump/code_generation.py
-from .config import BROWSER_MODEL, CODE_MODEL, BASE_URL, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
+from .config import OPENAI_BASE_URL,USE_CHAT_OLLAMA,BROWSER_MODEL, CODE_MODEL, OLLAMA_HOST, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
 import os
 os.environ["BROWSER_USE_LOGGING_LEVEL"]="debug"
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
+from browser_use.llm import ChatOpenAI
 from browser_use.llm import ChatOllama  # Import ChatOpenAI instead of OpenAI
 from browser_use import Agent, BrowserProfile, BrowserSession
 from browser_use.llm.messages import UserMessage, SystemMessage  # Import necessary message classes
 
-async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS, api_key=API_KEY):
+async def generate_history_list(task,use_chat_ollama=USE_CHAT_OLLAMA,model=BROWSER_MODEL,ollama_host=OLLAMA_HOST,openai_base_url=OPENAI_BASE_URL, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS, api_key=API_KEY):
     # Define the browser profile with the headless setting
     browser_profile = BrowserProfile(
         headless=headless,
@@ -20,13 +21,20 @@ async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, us
         browser_profile=browser_profile,
         # Add other configurations as needed
     )
+    if (use_chat_ollama):        
+    # Step 2: Use ChatOllama as the language model
+        llm = ChatOllama(
+            model=model,
+            host=ollama_host
+        )
+    else:
+      # Step 2: Use ChatOpenAI as the language model
+        llm = ChatOpenAI(
+            model=model,
+            api_key=api_key,
+            base_url=openai_base_url
+        )
 
-    # Step 2: Use ChatOpenAI as the language model
-    llm = ChatOllama(
-        model=model,
-        #api_key=api_key,
-        host=base_url,
-    )
 
     # Step 3: Run the initial task and get the history list
     agent = Agent(
@@ -41,7 +49,7 @@ async def generate_history_list(task, model=BROWSER_MODEL, base_url=BASE_URL, us
     await browser_session.close()
     return history_list
 
-async def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE_URL, api_key=API_KEY):
+async def generate_playwright_code(history_list, use_chat_ollama=USE_CHAT_OLLAMA,model=CODE_MODEL,ollama_host=OLLAMA_HOST,openai_base_url=OPENAI_BASE_URL,api_key=API_KEY):
     # Create a new prompt based on the history list
     prompt = f"""
     for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this
@@ -85,19 +93,26 @@ async def generate_playwright_code(history_list, model=CODE_MODEL, base_url=BASE
         UserMessage(content=prompt),
     ]
 
-    # Use ChatOpenAI client instead of OpenAI
-    client = ChatOllama(
-        model=model,
-        #api_key=api_key,
-        host=base_url,
-    )
+    if (use_chat_ollama):
+        # Step 2: Use ChatOpenAI as the language model
+        llm = ChatOllama(
+            model=model,
+            host=ollama_host
+        )
+    else:
+      # Step 2: Use ChatOpenAI as the language model
+        llm = ChatOpenAI(
+            model=model,
+            api_key=api_key,
+            base_url=openai_base_url
+        )
 
-    response = await client.ainvoke(messages)  # Ensure this is awaited
+    response = await llm.ainvoke(messages)  # Ensure this is awaited
 
     # Return the content of the first choice's message
     return response.completion
 
-async def generate_pytest_playwright_code(playwright_code, model=CODE_MODEL, base_url=BASE_URL, api_key=API_KEY):
+async def generate_pytest_playwright_code(playwright_code, use_chat_ollama=USE_CHAT_OLLAMA,model=CODE_MODEL, ollama_host=OLLAMA_HOST,openai_base_url=OPENAI_BASE_URL, api_key=API_KEY):
 
     prompt = f""" convert the code below to pytest playwright include page objects tests and conftest.py. If it looks like a navigation occured make sure to return the code for a new page object for the visited page. Add variables for each locator in the page objects, you can define these locators in __init__ and then use them within the methods.
 
@@ -210,14 +225,21 @@ Now convert this code as in the example:
         UserMessage(content=prompt),
     ]
 
-    # Use ChatOpenAI client instead of OpenAI
-    client = ChatOllama(
-        model=model,
-        #api_key=api_key,
-        host=base_url,
-    )
+    if (use_chat_ollama):
+        # Step 2: Use ChatOpenAI as the language model
+        llm = ChatOllama(
+            model=model,
+            host=ollama_host
+        )
+    else:
+      # Step 2: Use ChatOpenAI as the language model
+        llm = ChatOpenAI(
+            model=model,
+            api_key=api_key,
+            base_url=openai_base_url
+        )
 
-    response = await client.ainvoke(messages)  # Ensure this is awaited
+    response = await llm.ainvoke(messages)  # Ensure this is awaited
 
     # Return the content of the first choice's message
     return response.completion
