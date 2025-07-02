@@ -10,6 +10,5 @@ BROWSER_MODEL = "msm32"
 CODE_MODEL = "msm32"
 USE_VISION = False
 ANONYMIZED_TELEMETRY = False
-ENABLE_MEMORY = False #not implemented leave False
 HEADLESS = False
 

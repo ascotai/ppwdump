@@ -1,5 +1,5 @@
 # ppwdump/code_generation.py
-from .config import OPENAI_BASE_URL,USE_CHAT_OLLAMA,BROWSER_MODEL, CODE_MODEL, OLLAMA_HOST, USE_VISION, ANONYMIZED_TELEMETRY, ENABLE_MEMORY, HEADLESS, API_KEY
+from .config import OPENAI_BASE_URL,USE_CHAT_OLLAMA,BROWSER_MODEL, CODE_MODEL, OLLAMA_HOST, USE_VISION, ANONYMIZED_TELEMETRY, HEADLESS, API_KEY
 import os
 #os.environ["BROWSER_USE_LOGGING_LEVEL"]="debug"
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
@@ -8,7 +8,7 @@ from browser_use.llm import ChatOllama  # Import ChatOpenAI instead of OpenAI
 from browser_use import Agent, BrowserProfile, BrowserSession
 from browser_use.llm.messages import UserMessage, SystemMessage  # Import necessary message classes
 
-async def generate_history_list(task,use_chat_ollama=USE_CHAT_OLLAMA,model=BROWSER_MODEL,ollama_host=OLLAMA_HOST,openai_base_url=OPENAI_BASE_URL, use_vision=USE_VISION, enable_memory=ENABLE_MEMORY, headless=HEADLESS, api_key=API_KEY):
+async def generate_history_list(task,use_chat_ollama=USE_CHAT_OLLAMA,model=BROWSER_MODEL,ollama_host=OLLAMA_HOST,openai_base_url=OPENAI_BASE_URL, use_vision=USE_VISION, headless=HEADLESS, api_key=API_KEY):
     # Define the browser profile with the headless setting
     browser_profile = BrowserProfile(
         headless=headless,
@@ -41,7 +41,6 @@ async def generate_history_list(task,use_chat_ollama=USE_CHAT_OLLAMA,model=BROWS
         task=task,
         llm=llm,
         use_vision=use_vision,
-        enable_memory=enable_memory,
         browser_session=browser_session 
     )
 

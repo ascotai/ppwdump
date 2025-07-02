@@ -82,7 +82,7 @@ from ppwdump import generate_history_list, generate_playwright_code, generate_py
 async def main():
     use_chat_ollama = True
     my_browser_model = "msm32"
-    my_code_model = "msm"
+    my_code_model = "msm32"
     ollama_host  = "127.0.0.1:11434"
     headless = False
     api_key = "your_api_key_here"  # Add your API key here
