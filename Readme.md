@@ -6,10 +6,6 @@
 
 https://github.com/user-attachments/assets/566c2711-c3b7-4a5c-8bdc-92557c6b57a9
 
-## Important Note
-
-This project works best with version 0.8.0 of Ollama. Using later versions may cause issues at this time.
-
 ## Installation Using Virtual Environment
 
 For a more isolated environment, we recommend using a Python virtual environment. If you are on macOS, follow the instructions in the [Python_Venv_Install.md](Python_Venv_Install.md) file to create and activate a virtual environment using `uv` and then install the dependencies.

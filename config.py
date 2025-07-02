@@ -7,8 +7,8 @@ API_KEY = "none"
 OPENAI_BASE_URL = "http://127.0.0.1:11434/v1"
 #Both
 BROWSER_MODEL = "msm32"
-CODE_MODEL = "msm"
-USE_VISION = True
+CODE_MODEL = "msm32"
+USE_VISION = False
 ANONYMIZED_TELEMETRY = False
 ENABLE_MEMORY = False #not implemented leave False
 HEADLESS = False
