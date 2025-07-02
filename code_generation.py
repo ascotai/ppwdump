@@ -85,11 +85,12 @@ async def generate_playwright_code(history_list, use_chat_ollama=USE_CHAT_OLLAMA
     """
     messages = [
         SystemMessage(content=(
-            "You are a helpful assistant that converts json instructions into complete runnable python playwright code. "
+            "You are a helpful assistant that converts json instructions into complete runnable python playwright code."
+            "Make sure all output code is valid python playwright code. Do not output any javascript code."
             "You always return just python code. You do not need to explain anything, just return the code. "
             "Do not output markdown i.e. ```python```."
             "Do not include any steps that writes to, reads from or opens local files."
-            "If there appears to be one or more consecutive duplicate steps be sure to comment out the duplicates after the original step"
+            "If there appears to be one or more identical consecutive steps be sure to comment out the duplicates that appear after the original step."
         )),
         UserMessage(content=prompt),
     ]
