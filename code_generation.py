@@ -86,6 +86,7 @@ async def generate_playwright_code(history_list, use_chat_ollama=USE_CHAT_OLLAMA
         SystemMessage(content=(
             "You are a helpful assistant that converts json instructions into complete runnable python playwright code."
             "Make sure all output code is valid python playwright code. Do not output any javascript code."
+            "When using page.goto() only pass in a url, do not pass in any other parameters."
             "You always return just python code. You do not need to explain anything, just return the code. "
             "Do not output markdown i.e. ```python```."
             "Do not include any steps that writes to, reads from or opens local files."
