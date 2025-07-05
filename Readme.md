@@ -2,7 +2,7 @@
 
 ## Description
 
-`ppwdump` turns a prompt into runnable python playwright code and pytest playwright code. It uses Playwright, and Browser-use. This project leverages the power of these libraries to interact with web browsers and generate code for various purposes. `ppwdump` should now work with OpenAI compatible providers, not just Ollama.
+`ppwdump` turns a prompt into runnable python playwright code and pytest playwright code. It uses Playwright, and Browser-use. This project leverages the power of these libraries to interact with web browsers and generate code for various purposes. `ppwdump` should now work with Google Gemini, OpenAI compatible providers and Ollama.
 
 https://github.com/user-attachments/assets/566c2711-c3b7-4a5c-8bdc-92557c6b57a9
 
@@ -46,12 +46,14 @@ playwright install
    The configuration for the project is located in `config.py`. You can modify the following settings:
 
    - `ANONYMIZED_TELEMETRY`: Whether to enable anonymized telemetry.
+   - `BROWSER_MODEL_PROVIDER`: Model provider for browser interactions (can be ollama, google, or openai) 
    - `BROWSER_MODEL`: The language model to use for browser interactions.
+   - `CODE_MODEL_PROVIDER`: Model provider for code generation (can be ollama, google, or openai) 
    - `CODE_MODEL`: The language model to use for code generation.
-   - `USE_CHAT_OLLAMA`: Use ChatOllama for better performance with Ollama when True, or set to False to use an OpenAI compatible provider.
    - `OLLAMA_HOST`: Host address and port for the Ollama service.
-   - `API_KEY`: API key for the OpenAI compatible provider (set `USE_CHAT_OLLAMA` to False).
-   - `OPENAI_BASE_URL`: Base URL for the OpenAI compatible provider (set `USE_CHAT_OLLAMA` to False).
+   - `GOOGLE_API_KEY`: API key for Google's Gemini API.
+   - `OPENAI_API_KEY`: API key for OpenAI compatible providers.
+   - `OPENAI_BASE_URL`: Base URL for the OpenAI compatible provider.
    - `USE_VISION`: Enable or disable vision feature.
    - `HEADLESS`: Run the browser in headless mode.
 
@@ -80,21 +82,20 @@ import asyncio
 from ppwdump import generate_history_list, generate_playwright_code, generate_pytest_playwright_code
 
 async def main():
-    use_chat_ollama = True
+    model_provider = "ollama"
     my_browser_model = "msm32"
     my_code_model = "msm32"
     ollama_host  = "127.0.0.1:11434"
     headless = False
-    api_key = "your_api_key_here"  # Add your API key here
-    task = "Goto https://formy-project.herokuapp.com/form and fill out the elements of the form with sample data including radio buttons and checkboxes then submit the form. Make sure all entries make sense as if made by a human applicant."
-    
-    history_list = await generate_history_list(task, use_chat_ollama=use_chat_ollama, model=my_browser_model, ollama_host=ollama_host, headless=headless, api_key=api_key)
-    
-    playwright_code_content = await generate_playwright_code(history_list, use_chat_ollama=use_chat_ollama, model=my_code_model, ollama_host=ollama_host)
+    task = "Goto https://www.ecosia.org. Put Giant Panda in the search box. Click on the search button. Click on the link for the Giant Panda Wikipedia page. Finish."
+
+    history_list = await generate_history_list(task, model_provider=model_provider, model=my_browser_model, ollama_host=ollama_host, headless=headless)
+
+    playwright_code_content = await generate_playwright_code(history_list, model_provider=model_provider, model=my_code_model, ollama_host=ollama_host)
     print("Playwright Code:\n")
     print(playwright_code_content)
 
-    pytest_playwright_code = await generate_pytest_playwright_code(playwright_code_content, use_chat_ollama=use_chat_ollama, model=my_code_model, ollama_host=ollama_host)
+    pytest_playwright_code = await generate_pytest_playwright_code(playwright_code_content, model_provider=model_provider, model=my_code_model, ollama_host=ollama_host)
     print("\nPytest Playwright Code:\n")
     print(pytest_playwright_code)
 
