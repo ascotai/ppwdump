@@ -1,42 +1,42 @@
 # ppwdump/code_generation.py
-from .config import OPENAI_BASE_URL,USE_CHAT_OLLAMA,BROWSER_MODEL, CODE_MODEL, OLLAMA_HOST, USE_VISION, ANONYMIZED_TELEMETRY, HEADLESS, API_KEY
+from .config import OPENAI_BASE_URL, BROWSER_MODEL_PROVIDER, CODE_MODEL_PROVIDER, BROWSER_MODEL, CODE_MODEL, OLLAMA_HOST, USE_VISION, ANONYMIZED_TELEMETRY, HEADLESS, GOOGLE_API_KEY, OPENAI_API_KEY
 import os
 #os.environ["BROWSER_USE_LOGGING_LEVEL"]="debug"
 os.environ["ANONYMIZED_TELEMETRY"] = str(ANONYMIZED_TELEMETRY)
-from browser_use.llm import ChatOpenAI
-from browser_use.llm import ChatOllama  # Import ChatOpenAI instead of OpenAI
+from browser_use.llm import ChatOpenAI, ChatOllama, ChatGoogle  # Import both LLM classes
 from browser_use import Agent, BrowserProfile, BrowserSession
 from browser_use.llm.messages import UserMessage, SystemMessage  # Import necessary message classes
 
-async def generate_history_list(task,use_chat_ollama=USE_CHAT_OLLAMA,model=BROWSER_MODEL,ollama_host=OLLAMA_HOST,openai_base_url=OPENAI_BASE_URL, use_vision=USE_VISION, headless=HEADLESS, api_key=API_KEY):
-    # Define the browser profile with the headless setting
-    browser_profile = BrowserProfile(
-        headless=headless,
-        disable_security=False
-        # Add other configurations as needed
-    )
-
-    # Define the browser session using the profile
-    browser_session = BrowserSession(
-        browser_profile=browser_profile,
-        # Add other configurations as needed
-    )
-    if (use_chat_ollama):        
-    # Step 2: Use ChatOllama as the language model
-        llm = ChatOllama(
+def create_llm(model_provider="openai", model=BROWSER_MODEL_PROVIDER, ollama_host=OLLAMA_HOST, google_api_key=GOOGLE_API_KEY,openai_api_key=OPENAI_API_KEY, openai_base_url=OPENAI_BASE_URL):
+    if (model_provider=="ollama"):
+        return ChatOllama(
             model=model,
             host=ollama_host
         )
-    else:
-      # Step 2: Use ChatOpenAI as the language model
-        llm = ChatOpenAI(
+    elif (model_provider=="google"):
+        return ChatGoogle(
             model=model,
-            api_key=api_key,
+            api_key=google_api_key        
+        )
+    else:
+        return ChatOpenAI(
+            model=model,
+            api_key=openai_api_key,
             base_url=openai_base_url
         )
 
+async def generate_history_list(task, headless=HEADLESS, use_vision=USE_VISION, model_provider=BROWSER_MODEL_PROVIDER, model=BROWSER_MODEL, ollama_host=OLLAMA_HOST, google_api_key=GOOGLE_API_KEY, openai_api_key=OPENAI_API_KEY, openai_base_url=OPENAI_BASE_URL):
+    browser_profile = BrowserProfile(
+        headless=headless,
+        disable_security=False
+    )
 
-    # Step 3: Run the initial task and get the history list
+    browser_session = BrowserSession(
+        browser_profile=browser_profile,
+    )
+
+    llm = create_llm(model_provider, model, ollama_host, google_api_key, openai_api_key, openai_base_url)
+
     agent = Agent(
         task=task,
         llm=llm,
@@ -44,12 +44,11 @@ async def generate_history_list(task,use_chat_ollama=USE_CHAT_OLLAMA,model=BROWS
         browser_session=browser_session 
     )
 
-    history_list = await agent.run()  # Ensure this is awaited
+    history_list = await agent.run()
     await browser_session.close()
     return history_list
 
-async def generate_playwright_code(history_list, use_chat_ollama=USE_CHAT_OLLAMA,model=CODE_MODEL,ollama_host=OLLAMA_HOST,openai_base_url=OPENAI_BASE_URL,api_key=API_KEY):
-    # Create a new prompt based on the history list
+async def generate_playwright_code(history_list, model_provider=CODE_MODEL_PROVIDER, model=CODE_MODEL, ollama_host=OLLAMA_HOST, google_api_key=GOOGLE_API_KEY, openai_api_key=OPENAI_API_KEY, openai_base_url=OPENAI_BASE_URL):
     prompt = f"""
     for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this
     {{
@@ -95,27 +94,13 @@ async def generate_playwright_code(history_list, use_chat_ollama=USE_CHAT_OLLAMA
         UserMessage(content=prompt),
     ]
 
-    if (use_chat_ollama):
-        # Step 2: Use ChatOpenAI as the language model
-        llm = ChatOllama(
-            model=model,
-            host=ollama_host
-        )
-    else:
-      # Step 2: Use ChatOpenAI as the language model
-        llm = ChatOpenAI(
-            model=model,
-            api_key=api_key,
-            base_url=openai_base_url
-        )
+    llm = create_llm(model_provider, model, ollama_host, google_api_key, openai_api_key, openai_base_url)
 
-    response = await llm.ainvoke(messages)  # Ensure this is awaited
+    response = await llm.ainvoke(messages)
 
-    # Return the content of the first choice's message
     return response.completion
 
-async def generate_pytest_playwright_code(playwright_code, use_chat_ollama=USE_CHAT_OLLAMA,model=CODE_MODEL, ollama_host=OLLAMA_HOST,openai_base_url=OPENAI_BASE_URL, api_key=API_KEY):
-
+async def generate_pytest_playwright_code(playwright_code , model_provider=CODE_MODEL_PROVIDER, model=CODE_MODEL, ollama_host=OLLAMA_HOST, google_api_key=GOOGLE_API_KEY, openai_api_key=OPENAI_API_KEY, openai_base_url=OPENAI_BASE_URL):
     prompt = f""" convert the code below to pytest playwright include page objects tests and conftest.py. If it looks like a navigation occured make sure to return the code for a new page object for the visited page. Add variables for each locator in the page objects, you can define these locators in __init__ and then use them within the methods.
 
 for example this code:
@@ -227,21 +212,8 @@ Now convert this code as in the example:
         UserMessage(content=prompt),
     ]
 
-    if (use_chat_ollama):
-        # Step 2: Use ChatOpenAI as the language model
-        llm = ChatOllama(
-            model=model,
-            host=ollama_host
-        )
-    else:
-      # Step 2: Use ChatOpenAI as the language model
-        llm = ChatOpenAI(
-            model=model,
-            api_key=api_key,
-            base_url=openai_base_url
-        )
+    llm = create_llm(model_provider, model, ollama_host, google_api_key, openai_api_key, openai_base_url)
 
-    response = await llm.ainvoke(messages)  # Ensure this is awaited
+    response = await llm.ainvoke(messages)
 
-    # Return the content of the first choice's message
     return response.completion
