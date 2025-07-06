@@ -28,7 +28,8 @@ def create_llm(model_provider="openai", model=BROWSER_MODEL_PROVIDER, ollama_hos
 async def generate_history_list(task, headless=HEADLESS, use_vision=USE_VISION, model_provider=BROWSER_MODEL_PROVIDER, model=BROWSER_MODEL, ollama_host=OLLAMA_HOST, google_api_key=GOOGLE_API_KEY, openai_api_key=OPENAI_API_KEY, openai_base_url=OPENAI_BASE_URL):
     browser_profile = BrowserProfile(
         headless=headless,
-        disable_security=False
+        disable_security=False,
+        user_data_dir=None
     )
 
     browser_session = BrowserSession(
