@@ -9,7 +9,7 @@ HEADLESS = False
 CODE_MODEL_PROVIDER="ollama" #Can be ollama, google, or openai
 CODE_MODEL = "msm32"
 #Ollama settings
-OLLAMA_HOST = "192.168.105.3:11434"
+OLLAMA_HOST = "127.0.0.1:11434"
 #Google settings
 GOOGLE_API_KEY="google_gemini_api_key"
 #OpenAI settings
