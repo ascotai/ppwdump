@@ -42,6 +42,7 @@ async def generate_history_list(task, headless=HEADLESS, use_vision=USE_VISION, 
         task=task,
         llm=llm,
         use_vision=use_vision,
+        max_history_items=250,
         browser_session=browser_session,
         extend_system_message="""<additional_browser_rules>- Always use a tool to select an option from a select menu (dropdown).</additional_browser_rules>"""
     )
