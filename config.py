@@ -2,12 +2,12 @@
 
 #Browser model
 BROWSER_MODEL_PROVIDER="ollama" #Can be ollama, google, or openai 
-BROWSER_MODEL = "msm32"
+BROWSER_MODEL = "msmnew"
 USE_VISION = False
 HEADLESS = False
 #Code model
 CODE_MODEL_PROVIDER="ollama" #Can be ollama, google, or openai
-CODE_MODEL = "msm32"
+CODE_MODEL = "msmnew"
 #Ollama settings
 OLLAMA_HOST = "127.0.0.1:11434"
 #Google settings
