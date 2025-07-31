@@ -44,7 +44,7 @@ async def generate_history_list(task, headless=HEADLESS, use_vision=USE_VISION, 
         use_vision=use_vision,
         max_history_items=250,
         llm_timeout=300,
-		step_timeout=180,
+		step_timeout=300,
         browser_session=browser_session,
         extend_system_message="""<additional_browser_rules>- Always use a tool to select an option from a select menu (dropdown).</additional_browser_rules>"""
     )
@@ -90,12 +90,14 @@ async def generate_playwright_code(history_list, model_provider=CODE_MODEL_PROVI
         SystemMessage(content=(
             "You are a helpful assistant that converts json instructions into complete runnable python playwright code."
             "Make sure all output code is valid python playwright code. Do not output any javascript code."
+            "This is very important: If there are one or more duplicate steps be sure to comment out any duplicate steps that appear after the original step."
+            "Do not forget needed import statements at the the top of your code."
             "Use only from playwright.sync_api import sync_playwright in your code do not use async playwright."
+            "Use ony browser = p.chromium.launch(headless=False) do not use headless=True."
             "When using page.goto() only pass in a url, do not pass in any other parameters."
             "You always return just python code. You do not need to explain anything, just return the code. "
             "Do not output markdown i.e. ```python```."
             "Do not include any steps that writes to, reads from or opens local files."
-            "If there appears to be one or more identical consecutive steps be sure to comment out all the duplicates that appear after the original step."
         )),
         UserMessage(content=prompt),
     ]
