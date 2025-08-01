@@ -43,10 +43,11 @@ async def generate_history_list(task, headless=HEADLESS, use_vision=USE_VISION, 
         llm=llm,
         use_vision=use_vision,
         max_history_items=250,
-        llm_timeout=300,
-		step_timeout=300,
+        llm_timeout=600,
+		step_timeout=600,
         browser_session=browser_session,
-        extend_system_message="""<additional_browser_rules>- Always use a tool to select an option from a select menu (dropdown).</additional_browser_rules>"""
+        #extend_system_message="""<additional_browser_rules>- Always use a tool to select an option from a dropdown menu (select menu).</additional_browser_rules>"""
+        extend_system_message="""<additional_browser_rules>- Always use the 'select_dropdown_option' tool to select an option from a dropdown menu by the exact text of the option. First verify available options using 'get_dropdown_options' if needed.</additional_browser_rules>"""
     )
 
     history_list = await agent.run()
