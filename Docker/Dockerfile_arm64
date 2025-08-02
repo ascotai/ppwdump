@@ -3,6 +3,6 @@ FROM mcr.microsoft.com/playwright/python:v1.54.0-noble-arm64
 
 # Install pip and required packages in one RUN command
 RUN pip install --upgrade pip && \
-    pip install browser-use==0.5.7
+    pip install browser-use==0.5.9
 # Create and set the working directory
 WORKDIR /work
