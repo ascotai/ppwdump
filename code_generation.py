@@ -96,7 +96,8 @@ async def generate_playwright_code(history_list, model_provider=CODE_MODEL_PROVI
             "Use only from playwright.sync_api import sync_playwright in your code do not use async playwright."
             "Use ony browser = p.chromium.launch(headless=False) do not use headless=True."
             "When using page.goto() only pass in a url, do not pass in any other parameters."
-            "You always return just python code. You do not need to explain anything, just return the code. "
+            "Use CSS selector locators if possible instead of XPath locators."
+            "You always return just python code. You do not need to explain anything, just return the code."
             "Do not output markdown i.e. ```python```."
             "Do not include any steps that writes to, reads from or opens local files."
         )),

@@ -3,7 +3,7 @@
 #Browser model
 BROWSER_MODEL_PROVIDER="ollama" #Can be ollama, google, or openai 
 BROWSER_MODEL = "msmnew"
-USE_VISION = False
+USE_VISION = True #Currently local models need vision!
 HEADLESS = False
 #Code model
 CODE_MODEL_PROVIDER="ollama" #Can be ollama, google, or openai
