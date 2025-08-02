@@ -4,7 +4,7 @@ SYSTEM """ """
 
 PARAMETER num_thread 16
 
-PARAMETER num_ctx 11264
+PARAMETER num_ctx 32768
 
 PARAMETER temperature .15
 
