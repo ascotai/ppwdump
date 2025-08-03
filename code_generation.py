@@ -56,37 +56,139 @@ async def generate_history_list(task, headless=HEADLESS, use_vision=USE_VISION, 
 
 async def generate_playwright_code(history_list, model_provider=CODE_MODEL_PROVIDER, model=CODE_MODEL, ollama_host=OLLAMA_HOST, google_api_key=GOOGLE_API_KEY, openai_api_key=OPENAI_API_KEY, openai_base_url=OPENAI_BASE_URL):
     prompt = f"""
-    for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this
-    {{
-      "click_element": {{
-        "index": 36
+-for each json element of the array the first item represent a python playwright command action the interacted element represent the element to be acted on for example this:
+[
+  {{
+    "go_to_url": {{
+      "url": "https://www.ecosia.org",
+      "new_tab": false
+    }},
+    "interacted_element": null
+  }},
+  {{
+    "input_text": {{
+      "index": 1,
+      "text": "Giant Panda"
+    }},
+    "interacted_element": DOMHistoryElement(
+      tag_name='input',
+      xpath='html/body/div[1]/div/div[2]/header/div/form/div/div/div/input',
+      highlight_index=1,
+      entire_parent_branch_path=[
+        'div', 'div', 'div', 'header', 'div', 'form', 'div', 'div', 'div', 'input'
+      ],
+      attributes={{
+        'placeholder': 'Search the web...',
+        'aria-label': 'Search the web',
+        'role': 'combobox',
+        'aria-autocomplete': 'both',
+        'aria-controls': 'search-form-suggestion-list',
+        'aria-expanded': 'false',
+        'aria-haspopup': 'listbox',
+        'type': 'search',
+        'name': 'q',
+        'autocomplete': 'off',
+        'autocapitalize': 'off',
+        'autocorrect': 'off',
+        'spellcheck': 'false',
+        'required': 'required',
+        'data-test-id': 'search-form-input',
+        'value': '',
+        'class': 'search-form__input',
+        'data-v-bc2ad95e': ''
       }},
-      "interacted_element": {{
-        "tag_name": "a",
-        "xpath": 
-    "html/body/div[3]/div/div[12]/div[4]/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div[3]/div/div/div/div/div/div/div/div/div/div/span/a",
-        "highlight_index": 36,
-        "entire_parent_branch_path": ["div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", 
-    "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "div", "span", "a"],
-        "attributes": {{
-          "jsname": "UWckNb",
-          "href": "https://en.wikipedia.org/wiki/Giant_panda",
-          "data-ved": "2ahUKEwj-1euBzfiLAxXyJDQIHTGvDEwQFnoECEgQAQ",
-          "ping": "/url?sa=t&source=web&rct=j&opi=89978449&url=https://en.wikipedia.org/wiki/Giant_panda&ved=2ahUKEwj-1euBzfiLAxXyJDQIHTGvDEwQFnoECEgQAQ"
-        }},
-        "shadow_root": false,
-        "css_selector": "html > body > div:nth-of-type(3) > div > div:nth-of-type(12) > div:nth-of-type(4) > div > div > div:nth-of-type(2) > div > div > div > div > div >
-    div > div > div > div > div > div > div > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div > div > div > div > span >
-    a[href=\"https://en.wikipedia.org/wiki/Giant_panda\"]",
-        "page_coordinates": null,
-        "viewport_coordinates": null,
-        "viewport_info": null
-      }}
-    }}
-    would give this page.click("a[href='https://en.wikipedia.org/wiki/Giant_panda']") give one command for each element in the array. If using attributes use multiple attributes if possible.
+      shadow_root=false,
+      css_selector='html > body > div:nth-of-type(1) > div > div:nth-of-type(2) > header > div > form > div > div > div > input.search-form__input[placeholder="Search the web..."][aria-label="Search the web"][role="combobox"][type="search"][name="q"][autocomplete="off"][required="required"]',
+      page_coordinates=null,
+      viewport_coordinates=null,
+      viewport_info=null
+    )
+  }},
+  {{
+    "click_element_by_index": {{
+      "index": 3
+    }},
+    "interacted_element": DOMHistoryElement(
+      tag_name='button',
+      xpath='html/body/div[1]/div/div[2]/header/div/form/div/div/button',
+      highlight_index=3,
+      entire_parent_branch_path=[
+        'div', 'div', 'div', 'header', 'div', 'form', 'div', 'div', 'button'
+      ],
+      attributes={{
+        'type': 'submit',
+        'icon-class': 'searchf-form__submit-icon',
+        'aria-label': 'Search',
+        'data-test-id': 'search-form-submit',
+        'variant': 'bare',
+        'class': 'button search-form__submit button base-button base-button--variant-bare base-button--size-m base-button--elevation-0 base-button--text-size-m search-form__submit button button--icon-position-start button-icon',
+        'data-v-ef413702': '',
+        'data-v-bc2ad95e': ''
+      }},
+      shadow_root=false,
+      css_selector='html > body > div:nth-of-type(1) > div > div:nth-of-type(2) > header > div > form > div > div > button.button.search-form__submit.button.base-button.base-button--variant-bare.base-button--size-m.base-button--elevation-0.base-button--text-size-m.search-form__submit.button.button--icon-position-start.button-icon[type="submit"][aria-label="Search"]',
+      page_coordinates=null,
+      viewport_coordinates=null,
+      viewport_info=null
+    )
+  }},
+  {{
+    "click_element_by_index": {{
+      "index": 41
+    }},
+    "interacted_element": DOMHistoryElement(
+      tag_name='a',
+      xpath='html/body/div[1]/div/main/div/section/div[1]/div[3]/div[3]/article/div/div[1]/div[1]/div/div[2]/a',
+      highlight_index=41,
+      entire_parent_branch_path=[
+        'div', 'div', 'main', 'div', 'section', 'div', 'div', 'div', 'article', 'div', 'div', 'div', 'div', 'div', 'a'
+      ],
+      attributes={{
+        'data-test-id': 'result-link',
+        'tabindex': '-1',
+        'href': 'https://en.wikipedia.org/wiki/Giant_panda',
+        'target': '_self',
+        'rel': 'noopener',
+        'class': 'result__link result__source--ellipsis',
+        'data-v-cba477c1': ''
+      }},
+      shadow_root=false,
+      css_selector='html > body > div:nth-of-type(1) > div > main > div > section > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(3) > article > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > a.result__link.result__source--ellipsis[href="https://en.wikipedia.org/wiki/Giant_panda"][target="_self"]',
+      page_coordinates=null,
+      viewport_coordinates=null,
+      viewport_info=null
+    )
+  }},
+  {{
+    "done": {{
+      "text": "The task is complete. I have successfully navigated to the Giant Panda Wikipedia page.",
+      "success": true,
+      "files_to_display": []
+    }},
+    "interacted_element": null
+  }}
+]
 
-    {history_list.model_actions()}
-    """
+-would give this: 
+
+
+from playwright.sync_api import sync_playwright
+
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=False)
+    page = browser.new_page()
+    page.goto('https://www.ecosia.org')
+    page.fill("input.search-form__input[placeholder='Search the web...'][aria-label='Search the web'][role='combobox'][type='search'][name='q'][autocomplete='off'][required='required']", 'Giant Panda')
+    page.click("button.button.search-form__submit.button.base-button.base-button--variant-bare.base-button--size-m.base-button--elevation-0.base-button--text-size-m.search-form__submit.button.button--icon-position-start.button-icon[type='submit'][aria-label='Search']")
+    page.click("a.result__link.result__source--ellipsis[href='https://en.wikipedia.org/wiki/Giant_panda'][target='_self']")
+    browser.close()   
+    
+    
+-give one command for each element in the array. If using attributes use multiple attributes if possible.
+{history_list.model_actions()}
+"""
+
     messages = [
         SystemMessage(content=(
             "You are a helpful assistant that converts json instructions into complete runnable python playwright code."
