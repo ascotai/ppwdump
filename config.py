@@ -2,12 +2,12 @@
 
 #Browser model
 BROWSER_MODEL_PROVIDER="ollama" #Can be ollama, google, or openai 
-BROWSER_MODEL = "msmnew"
-USE_VISION = True #Currently local models need vision!
+BROWSER_MODEL = "uq3c5"
+USE_VISION = False #Currently msmnew needs vision!
 HEADLESS = False
 #Code model
 CODE_MODEL_PROVIDER="ollama" #Can be ollama, google, or openai
-CODE_MODEL = "msmnew"
+CODE_MODEL = "uq3c5"
 #Ollama settings
 OLLAMA_HOST = "127.0.0.1:11434"
 #Google settings

@@ -1,0 +1,16 @@
+FROM hf.co/unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:Q5_K_XL
+
+#SYSTEM """ """
+
+PARAMETER num_thread 16
+
+PARAMETER num_ctx 32768
+
+PARAMETER temperature .15
+
+PARAMETER top_p .95
+
+PARAMETER top_k 20
+
+
+
