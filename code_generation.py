@@ -193,7 +193,7 @@ with sync_playwright() as p:
         SystemMessage(content=(
             "You are a helpful assistant that converts json instructions into complete runnable python playwright code."
             "Make sure all output code is valid python playwright code. Do not output any javascript code."
-            "This is very important: If there are one or more duplicate steps be sure to comment out any duplicate steps that appear after the original step."
+            "Do not output duplicate lines! If there are one or more duplicate steps be sure to comment out any duplicate steps that appear after the original step."
             "Do not forget needed import statements at the the top of your code."
             "Use only from playwright.sync_api import sync_playwright in your code do not use async playwright."
             "Use ony browser = p.chromium.launch(headless=False) do not use headless=True."

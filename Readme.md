@@ -1,5 +1,7 @@
 # ppwdump
 
+Try out the new uq3c5 Ollama Modelfile!
+
 ## Description
 
 `ppwdump` turns a prompt into runnable python playwright code and pytest playwright code. It uses Playwright, and Browser-use. This project leverages the power of these libraries to interact with web browsers and generate code for various purposes. `ppwdump` should now work with Google Gemini, OpenAI compatible providers and Ollama.
